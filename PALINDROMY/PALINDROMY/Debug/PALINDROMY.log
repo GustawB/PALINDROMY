@@ -1,0 +1,5 @@
+﻿  PALINDROM.c
+C:\Users\gusta\source\repos\PALINDROMY\PALINDROMY\PALINDROM.c(178,33): warning C4047: 'function': 'char (*)[8]' differs in levels of indirection from 'char (*)[8][8]'
+C:\Users\gusta\source\repos\PALINDROMY\PALINDROMY\PALINDROM.c(178,27): warning C4024: 'ReserveSpot': different types for formal and actual parameter 1
+C:\Users\gusta\source\repos\PALINDROMY\PALINDROMY\PALINDROM.c(147): warning C4716: 'CheckWinConditions': must return a value
+  PALINDROMY.vcxproj -> C:\Users\gusta\source\repos\PALINDROMY\Debug\PALINDROMY.exe
