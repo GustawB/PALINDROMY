@@ -49,34 +49,57 @@ int ReserveSpot(char table[WIERSZE][KOLUMNY], int column, char player)//funkcja 
 bool HorizontalWinCondition(char table[WIERSZE][KOLUMNY],int row, int column)//sprawdzenie czy dany 'player' wygral "w pionie"
 {
 	int beg;
-	if (column + 1 - DLUGOSC < 0) { return false; }//zdefiniowanie pocztku ciagu zwyciestwa
+	if (column + 1 - DLUGOSC < 0) { beg = 0; }//zdefiniowanie pocztku ciagu zwyciestwa
 	else { beg = column + 1 - DLUGOSC; }
-	int end = column;//koniec ciagu zwyciestwa
+	int end;
+	if (column + DLUGOSC >= KOLUMNY) { end = KOLUMNY - DLUGOSC; }
+	else { end = column; }
 
-	while (table[row][beg] == table[row][end] && beg < end)//badanie, czy ciag dlugosci DLUGOSC jest palindromem
+	bool bDidSomeoneWin = false;
+	while (beg <= end && !bDidSomeoneWin)
 	{
+		int localBeg = beg;
+		int localEnd = beg + DLUGOSC - 1;
+		while (table[row][localBeg] == table[row][localEnd] && localBeg < localEnd)//badanie, czy ciag dlugosci DLUGOSC jest palindromem
+		{
+			++localBeg;
+			--localEnd;
+		}
+		if (localBeg >= localEnd) { bDidSomeoneWin = true; }
+
 		++beg;
-		--end;
 	}
 
-	return (beg >= end);//jesli beg > end to DLUGOSC jest parz, beg == end to DLUGOSC nieparz
+	return bDidSomeoneWin;//jesli beg > end to DLUGOSC jest parz, beg == end to DLUGOSC nieparz
 	//jesli beg >= end to mamy palindrom, nie w przeciwnym wypadku
 }
 
 bool VerticalWinCondition(char table[WIERSZE][KOLUMNY], int row, int column)//sprawdzenie czy dany 'player' wygral w poziomie
 {
 	int beg;
-	if (row - 1 + DLUGOSC >= WIERSZE) { return false; }//zdefiniowanie poczatku ciagu zwyciestwa
+	if (row - 1 + DLUGOSC >= WIERSZE) { beg = WIERSZE -1; }//zdefiniowanie poczatku ciagu zwyciestwa
 	else { beg = row - 1 + DLUGOSC; }
-	int end = row;//koniec ciagu zwyciestwa
+	int end;
+	if (row + 1 - DLUGOSC < 0) { end = DLUGOSC - 1; }
+	else { end = row; }
 
-	while (table[beg][column] == table[end][column] && beg > end)//badanie czy ciag dlugosci DLUGOSC jest palindromem
+	bool bDidSomeoneWin = false;
+	while (beg >=end && !bDidSomeoneWin)
 	{
+		int localBeg = beg;
+		int localEnd = beg - DLUGOSC + 1;
+		printf("%d%d\n", localBeg, localEnd);
+		while (table[localBeg][column] == table[localEnd][column] && localBeg > localEnd)//badanie czy ciag dlugosci DLUGOSC jest palindromem
+		{
+			--localBeg;
+			++localEnd;
+		}
+		if (localBeg <= localEnd) { bDidSomeoneWin = true; }
+
 		--beg;
-		++end;
 	}
 
-	return (beg <= end);//jesli beg < end to DLUGOSC jest parz, beg == end to DLUGOSC nieparz
+	return bDidSomeoneWin;//jesli beg < end to DLUGOSC jest parz, beg == end to DLUGOSC nieparz
 	//jesli beg <= end to mamy palindrom, nie w przeciwnym wypadku
 
 }
@@ -137,8 +160,8 @@ bool CheckWinConditions(char table[WIERSZE][KOLUMNY], int row, int column)//spra
 {
 	if (HorizontalWinCondition(table, row, column)) { return true; }
 	else if (VerticalWinCondition(table, row, column)) { return true; }
-	else if (DiagonalRisingWinCondition(table, row, column)) { return true; }
-	else if (DiagonalLoweringWinCondition(table, row, column)) { return true; }
+	//else if (DiagonalRisingWinCondition(table, row, column)) { return true; }
+	//else if (DiagonalLoweringWinCondition(table, row, column)) { return true; }
 
 	return false;
 }
